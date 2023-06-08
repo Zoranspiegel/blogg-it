@@ -24,9 +24,8 @@ export const styles = StyleSheet.create({
     borderColor: "white",
   },
   logo: {
-    fontSize: 28,
-    fontFamily: 'Arimo_700Bold',
-    marginLeft: "30%",
+    fontSize: 26,
+    marginLeft: "33%",
     color: '#f5f5f5',
   },
 });

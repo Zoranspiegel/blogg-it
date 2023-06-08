@@ -15,12 +15,12 @@ export const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     marginBottom: 6,
     color: "white",
     fontWeight: 'normal',
     fontFamily: 'Arimo_700Bold',
-    maxWidth: 275,
+    maxWidth: 270,
   },
   btnFilter: {
     borderRadius: 6,

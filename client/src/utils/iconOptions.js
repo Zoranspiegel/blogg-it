@@ -9,6 +9,7 @@ import {
   Feather
 } from "@expo/vector-icons";
 
+import { View } from 'react-native';
 
 export const iconOptions = {
   home: {
@@ -54,19 +55,33 @@ export const iconsCard = {
 
 export const iconsArticle = {
   account: {
-    default: <MaterialCommunityIcons color={"black"} size={60} name="account-circle-outline" />,
-    focused: <MaterialCommunityIcons color={"black"} size={60} name="account-circle" />,
+    default: (
+      <MaterialCommunityIcons
+        color={"black"}
+        size={60}
+        name="account-circle-outline"
+      />
+    ),
+    focused: (
+      <MaterialCommunityIcons color={"black"} size={60} name="account-circle" />
+    ),
   },
   heart: {
-    empty: <MaterialCommunityIcons name="cards-heart-outline" size={24} color="#f5f5f5" style={{ marginTop: 3, marginRight: 6 }} />,
-    filled: <MaterialCommunityIcons name="cards-heart" size={24} color="#f5f5f5" style={{ marginTop: 3, marginRight: 6 }} />,
+    empty: <Entypo name="heart-outlined" size={24} color="#f5f5f5" />,
+    filled: <Entypo name="heart" size={24} color="#f5f5f5" />,
   },
-  comment: <FontAwesome5 name="comment" size={20} color="#f5f5f5" style={{marginTop: 4, marginRight: 6 }} />,
+  comment: (
+    <FontAwesome5 name="comment" size={20} color="#f5f5f5" style={{ marginTop: 2 }} />
+  ),
   saved: {
-    default: <MaterialCommunityIcons color="#f5f5f5" size={24} name="bookmark-outline" style={{ marginTop: 3 }} />,
-    focused: <MaterialCommunityIcons color="#f5f5f5" size={24} name="bookmark" style={{ marginTop: 3 }} />,
+    default: (
+      <MaterialCommunityIcons color="#f5f5f5" size={24} name="bookmark-outline" />
+    ),
+    focused: <MaterialCommunityIcons color="#f5f5f5" size={24} name="bookmark" />,
   },
-  commentModal: <Fontisto name="comment" size={20} color="white" style={{ marginTop: 3 }} />,
+  commentModal: (
+    <Fontisto name="comment" size={20} color="white" style={{ marginTop: 3 }} />
+  ),
   plus: <Entypo name="plus" size={24} color="white" />,
   cross: <Entypo name="cross" size={24} color="white" />,
 };

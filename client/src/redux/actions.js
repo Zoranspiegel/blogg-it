@@ -1,6 +1,4 @@
-import axios from "axios";
 import { MY_IP } from "react-native-dotenv";
-
 export const GET_ARTICLES = "GET_ARTICLES";
 export const CATEGORY_BTN = "CATEGORY_BTN";
 export const TOGGLE_LOGGED = "TOGGLE_LOGGED";
@@ -12,9 +10,9 @@ export const DETAILS_REJECTED = "DETAILS_REJECTED";
 export const SET_ARTICLE_LIKE = "SET_ARTICLE_LIKE";
 export const SET_ARTICLE_LIKE2 = "SET_ARTICLE_LIKE2";
 export const LOG_TO_DB = "LOG_TO_DB";
-export const LOG_OUT = 'LOG_OUT';
+export const LOG_OUT = "LOG_OUT";
 export const GET_CATEGORY = "GET_CATEGORY";
-export const LOG_IN = 'LOG_IN';
+export const UPDATE_SAVED = "UPDATE_SAVED";
 
 export const categoryBtn = () => {
   fetch(`http://${MY_IP}:4000/api/blogs/category/No Code`);
@@ -29,7 +27,7 @@ export const getArticles = () => (dispatch) => {
       return res.json();
     })
     .then((data) => {
-      return dispatch({ type: GET_ARTICLES, payload: data });
+      return dispatch({ type: GET_ARTICLES, payload: data.posts });
     })
     .catch((error) =>
       dispatch({ type: ARTICLES_REJECTED, payload: error.message })
@@ -45,7 +43,7 @@ export const getDetails = (articleId) => (dispatch) => {
       return res.json();
     })
     .then((data) => {
-      return dispatch({ type: GET_DETAILS, payload: data });
+      return dispatch({ type: GET_DETAILS, payload: data.post });
     })
     .catch((error) =>
       dispatch({ type: DETAILS_REJECTED, payload: error.message })
@@ -75,79 +73,25 @@ export const logToDb = (id) => (dispatch) => {
       return res.json();
     })
     .then((data) => {
-      if (!data._id) throw new Error("User not found");
-      return dispatch({ type: LOG_TO_DB, payload: data });
+      dispatch({ type: LOG_TO_DB, payload: data.usersProfile });
     })
-    .catch((error) => console.error(error));
+    .catch((error) => console.log(error));
 };
 
-//LOG_IN
-export const logIn = (user) => (dispatch) => {
-  fetch(`http://${MY_IP}:4000/api/auth/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ email: user.email })
-  })
+// UPDATE_SAVED
+export const updateSaved = (id) => (dispatch) => {
+  fetch(`http://${MY_IP}:4000/api/users/profile/${id}`)
     .then((res) => {
-      if (!res.ok) throw new Error("Sin respuexta del servidor");
+      if (!res.ok) throw new Error("Sin respuesta del servidor");
       return res.json();
     })
     .then((data) => {
-      if (!data.access_token) {
-        console.log('NEW_USER');
-        const newUserBody = {
-          userId: user.sub,
-          userName: user.given_name ? user.given_name : user.nickname,
-          email: user.email,
-          profileImage: user.picture,
-        };
-        fetch(`http://${MY_IP}:4000/api/users/create`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(newUserBody)
-        })
-          .then((res) => {
-            if (!res.ok) throw new Error("Sin respuesta del servidor");
-            fetch(`http://${MY_IP}:4000/api/auth/login`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ email: user.email })
-            })
-              .then((res) => {
-                if (!res.ok) throw new Error("Sin respuesta del servidor");
-                return res.json();
-              })
-              .then(data => {
-                if (!data.access_token) throw new Error('Something went wrong');
-                dispatch({ type: LOG_IN, payload: data.access_token });
-              })
-              .catch(error => console.error(error));
-          })
-          .catch(error => console.error(error));
-      } else {
-        console.log('FOUND_USER!!');
-        return dispatch({ type: LOG_IN, payload: data.access_token });
-      }
+      dispatch({ type: UPDATE_SAVED, payload: data.usersProfile.saved });
     })
     .catch((error) => console.error(error));
 };
 
 // LOG_OUT
 export const logOut = () => {
-  return { type: LOG_OUT }
-};
-
-//Handle board:
-//1. Move to another board
-//2. Create new board
-//3. unsaved (?) only if I send the same data
-
-export const handleBoard = (data) => (dispatch) => {
-  fetch(`http://${MY_IP}:4000/api/users/saved/${data.userId}`);
+  return { type: LOG_OUT };
 };

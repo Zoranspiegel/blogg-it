@@ -9,7 +9,7 @@ const ModalSave = ({ alert, setAlert, data, deleteSaved }) => {
   useEffect(() => {
     setTimeout(() => {
       setAlert(false);
-    }, 3800);
+    }, 2500);
   }, [alert]);
 
   const handleLink = () => {

@@ -11,11 +11,11 @@ import { styles } from "./cardArticleStyles";
 import { iconsCard } from "client/src/utils/iconOptions.js";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
-import { logToDb, setArticleLike2 } from "../../../redux/actions";
+import { setArticleLike2, updateSaved } from "../../../redux/actions";
 import { MY_IP } from "react-native-dotenv";
 import ModalSave from "../ModalSave/ModalSave";
 import { LinearGradient } from "expo-linear-gradient";
-import { useFonts, Arimo_700Bold } from '@expo-google-fonts/arimo';
+import { useFonts, Arimo_700Bold } from "@expo-google-fonts/arimo";
 
 const CardArticle = ({ item, setModalVisibility }) => {
   let [fontsLoaded] = useFonts({ Arimo_700Bold });
@@ -26,6 +26,15 @@ const CardArticle = ({ item, setModalVisibility }) => {
     state.logged ? state.loggedUser : false
   );
   const dispatch = useDispatch();
+  //data importante para los modales de creacion de tableros
+  const data = useSelector((state) => {
+    return {
+      userId: state.loggedUser.userId,
+      postId: item._id,
+      images: item.images,
+      saved: state.loggedUser.saved,
+    };
+  });
 
   const navigation = useNavigation();
 
@@ -86,7 +95,7 @@ const CardArticle = ({ item, setModalVisibility }) => {
       })
         .then((res) => {
           if (res.ok) {
-            dispatch(logToDb(hasLogged.userId));
+            dispatch(updateSaved(hasLogged.userId));
             setAlert(true); //Mostrar el modal alert
             setSaved(true); // Rellenar el ícono
             console.log("Se ha agregado a Leer mas tarde");
@@ -126,7 +135,7 @@ const CardArticle = ({ item, setModalVisibility }) => {
     })
       .then((res) => {
         if (res.ok) {
-          dispatch(logToDb(hasLogged.userId));
+          dispatch(updateSaved(hasLogged.userId));
           setSaved(false); //Vaciar el ícono
           console.log("fue eliminado correctamente de " + folder);
         } else {
@@ -135,15 +144,8 @@ const CardArticle = ({ item, setModalVisibility }) => {
       })
       .catch((err) => console.error(err));
   };
-  //data importante para los modales de creacion de tableros
-  const data = {
-    userId: hasLogged.userId,
-    postId: item._id,
-    images: item.images,
-    saved: hasLogged.saved,
-  };
 
-  if(!fontsLoaded) return null;
+  if (!fontsLoaded) return null;
   return (
     <>
       <TouchableWithoutFeedback
@@ -168,6 +170,7 @@ const CardArticle = ({ item, setModalVisibility }) => {
                   >
                     <Text style={styles.btnFilter}>{item.category}</Text>
                   </View>
+
                   <View>
                     <Text style={styles.title}>{item.title}</Text>
                     <View
@@ -191,8 +194,8 @@ const CardArticle = ({ item, setModalVisibility }) => {
                     }
                     style={styles.favorite}
                   >
-                    {favorite ? iconsCard.heart.filled : iconsCard.heart.empty}
-                    <Text style={{ color: "#f5f5f5", fontSize: 14 }}>
+                    {favorite ? iconsCard.heart.empty : iconsCard.heart.filled}
+                    <Text style={{ color: "white", fontSize: 18 }}>
                       {item.postLikes.length}
                     </Text>
                   </TouchableOpacity>

@@ -1,9 +1,8 @@
 import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   modalBg: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: "flex-end",
-    paddingBottom: 30,
+    marginBottom: 70,
     alignItems: "center",
     flex: 1,
   },
@@ -12,12 +11,13 @@ export const styles = StyleSheet.create({
     maxHeight: "50%",
     borderRadius: 15,
     backgroundColor: "#3A3969",
+    gap: 10,
     elevation: 5,
   },
   // Focus Board
   defaultContainer: {
     flexDirection: "row",
-    backgroundColor: "#2e2d4f",
+    backgroundColor: "#3A3969",
     borderTopStartRadius: 14,
     borderTopEndRadius: 14,
     padding: 15,
@@ -39,7 +39,6 @@ export const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    fontFamily: 'Nunito_400Regular',
     textAlign: "center",
     color: "#f5f5f5",
     fontWeight: "500",
@@ -53,11 +52,11 @@ export const styles = StyleSheet.create({
   infoContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 15,
+    padding: 10,
   },
   boardContainer: {
     flexDirection: "row",
-    padding: 15,
+    padding: 10,
     justifyContent: "space-between",
   },
 });

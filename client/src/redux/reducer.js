@@ -10,7 +10,7 @@ import {
   LOG_TO_DB,
   LOG_OUT,
   GET_CATEGORY,
-  LOG_IN
+  UPDATE_SAVED,
 } from "./actions";
 
 const initialState = {
@@ -28,7 +28,6 @@ const initialState = {
     error: null,
   },
   loggedUser: {},
-  token: '',
   logged: false,
 };
 
@@ -72,18 +71,17 @@ export default function rootReducer(state = initialState, action) {
         loggedUser: action.payload,
         logged: true,
       };
-    case LOG_IN:
+    case UPDATE_SAVED:
       return {
         ...state,
-        token: action.payload
-      }
+        loggedUser: { ...state.loggedUser, saved: action.payload },
+      };
     case LOG_OUT:
       return {
         ...state,
         loggedUser: initialState.loggedUser,
         logged: initialState.logged,
-        token: initialState.token,
-      }
+      };
     case GET_CATEGORY:
       if (action.payload === "ALL") {
         return {
